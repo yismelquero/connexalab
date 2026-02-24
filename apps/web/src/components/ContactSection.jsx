@@ -14,56 +14,46 @@ const ContactSection = () => {
     mensaje: ''
   });
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = async e => {
+  // 🔥 FUNCIÓN QUE ENVÍA A NETLIFY
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
     if (!formData.nombre || !formData.email || !formData.mensaje) {
       toast({
         title: "Error",
-        description: "Por favor completa todos los campos requeridos.",
+        description: "Por favor completa los campos obligatorios.",
         variant: "destructive"
       });
       return;
     }
 
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast({
-        title: "Error",
-        description: "Por favor ingresa un correo electrónico válido.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    // 🔥 ENVÍO REAL A NETLIFY
-    const encodedData = new URLSearchParams({
-      "form-name": "contacto",
-      ...formData
-    }).toString();
+    const encode = (data) =>
+      Object.keys(data)
+        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+        .join("&");
 
     try {
       await fetch("/", {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encodedData
+        body: encode({
+          "form-name": "contacto",
+          ...formData
+        })
       });
 
       toast({
         title: "¡Mensaje enviado!",
-        description: "Gracias por contactarnos. Te responderemos pronto."
+        description: "Gracias por contactarnos 💛"
       });
 
-      // Reset form
       setFormData({
         nombre: '',
         empresa: '',
@@ -75,7 +65,7 @@ const ContactSection = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "No se pudo enviar el mensaje. Intenta nuevamente.",
+        description: "No se pudo enviar el mensaje.",
         variant: "destructive"
       });
     }
@@ -83,163 +73,121 @@ const ContactSection = () => {
 
   return (
     <section id="contacto" className="min-h-screen bg-[#ffcafb] py-20 px-6">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12">
 
-          {/* LEFT COLUMN */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
-          >
-            <div>
-              <h2 className="text-5xl md:text-6xl font-bold text-[#2f306b] mb-6">
-                ¡Hablemos!
-              </h2>
-              <p className="text-2xl md:text-3xl font-semibold text-[#2f306b]/90 leading-tight">
-                Podemos transformar tu marca.
+        {/* INFO */}
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+          className="space-y-8"
+        >
+          <div>
+            <h2 className="text-5xl md:text-6xl font-bold text-[#2f306b] mb-6">
+              ¡Hablemos!
+            </h2>
+            <p className="text-2xl font-semibold text-[#2f306b]/90">
+              Podemos transformar tu marca.
+            </p>
+          </div>
+
+          <div className="space-y-6">
+
+            <div className="flex gap-4">
+              <MapPin className="w-6 h-6 text-[#2f306b]" />
+              <p className="text-[#2f306b]/80">
+                Calle Cañada Strongest Nro. 1842 — La Paz, Bolivia
               </p>
             </div>
 
-            <div className="space-y-6">
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#2f306b] rounded-full flex items-center justify-center">
-                  <MapPin className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-[#2f306b] mb-1">Ubicación</h3>
-                  <p className="text-[#2f306b]/80">
-                    Calle Cañada Strongest Nro. 1842, Torre Centrum, Piso 3.<br />
-                    La Paz - Bolivia.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#2f306b] rounded-full flex items-center justify-center">
-                  <Phone className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-[#2f306b] mb-1">Teléfono</h3>
-                  <p className="text-[#2f306b]/80">+591 75231485</p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4">
-                <div className="w-12 h-12 bg-[#2f306b] rounded-full flex items-center justify-center">
-                  <Mail className="w-6 h-6 text-white" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-[#2f306b] mb-1">Email</h3>
-                  <p className="text-[#2f306b]/80">info@connexalab.com</p>
-                </div>
-              </div>
-
+            <div className="flex gap-4">
+              <Phone className="w-6 h-6 text-[#2f306b]" />
+              <p className="text-[#2f306b]/80">+591 75231485</p>
             </div>
-          </motion.div>
 
-          {/* RIGHT COLUMN — FORM */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            <div className="flex gap-4">
+              <Mail className="w-6 h-6 text-[#2f306b]" />
+              <p className="text-[#2f306b]/80">info@connexalab.com</p>
+            </div>
+
+          </div>
+        </motion.div>
+
+        {/* FORMULARIO */}
+        <motion.div
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8 }}
+        >
+          <form
+            name="contacto"
+            method="POST"
+            data-netlify="true"
+            onSubmit={handleSubmit}
+            className="bg-white rounded-3xl p-8 shadow-2xl space-y-6"
           >
 
-            <form
-              name="contacto"
-              method="POST"
-              data-netlify="true"
-              onSubmit={handleSubmit}
-              className="bg-white rounded-3xl p-8 shadow-2xl space-y-6"
+            {/* CLAVE PARA NETLIFY */}
+            <input type="hidden" name="form-name" value="contacto" />
+
+            <input
+              type="text"
+              name="nombre"
+              placeholder="Nombre completo *"
+              value={formData.nombre}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-xl"
+            />
+
+            <input
+              type="text"
+              name="empresa"
+              placeholder="Empresa"
+              value={formData.empresa}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-xl"
+            />
+
+            <input
+              type="tel"
+              name="telefono"
+              placeholder="Teléfono"
+              value={formData.telefono}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border rounded-xl"
+            />
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Correo electrónico *"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border rounded-xl"
+            />
+
+            <textarea
+              name="mensaje"
+              placeholder="Mensaje *"
+              value={formData.mensaje}
+              onChange={handleChange}
+              required
+              rows={5}
+              className="w-full px-4 py-3 border rounded-xl"
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-[#ff007a] text-white py-4 rounded-full font-semibold"
             >
+              Enviar
+            </button>
 
-              {/* REQUIRED FOR NETLIFY */}
-              <input type="hidden" name="form-name" value="contacto" />
+          </form>
+        </motion.div>
 
-              <div>
-                <label className="block text-[#2f306b] font-semibold mb-2">
-                  Nombre completo *
-                </label>
-                <input
-                  type="text"
-                  name="nombre"
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-xl border-2 border-[#f6f4ff]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#2f306b] font-semibold mb-2">
-                  Empresa
-                </label>
-                <input
-                  type="text"
-                  name="empresa"
-                  value={formData.empresa}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-[#f6f4ff]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#2f306b] font-semibold mb-2">
-                  Teléfono
-                </label>
-                <input
-                  type="tel"
-                  name="telefono"
-                  value={formData.telefono}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-[#f6f4ff]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#2f306b] font-semibold mb-2">
-                  Email *
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                  className="w-full px-4 py-3 rounded-xl border-2 border-[#f6f4ff]"
-                />
-              </div>
-
-              <div>
-                <label className="block text-[#2f306b] font-semibold mb-2">
-                  Mensaje *
-                </label>
-                <textarea
-                  name="mensaje"
-                  value={formData.mensaje}
-                  onChange={handleChange}
-                  required
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-xl border-2 border-[#f6f4ff]"
-                />
-              </div>
-
-              <motion.button
-                type="submit"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full bg-[#ff007a] text-white font-semibold px-8 py-4 rounded-full"
-              >
-                Enviar
-              </motion.button>
-
-            </form>
-          </motion.div>
-        </div>
       </div>
     </section>
   );
