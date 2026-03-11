@@ -50,9 +50,9 @@ const AboutSection = () => {
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
               ¿Quiénes somos?
             </h2>
-            <p className="text-lg text-white/90 leading-relaxed">En Connexa Lab creemos que toda marca tiene el potencial de crecer si encuentra la forma correcta de comunicar su valor.
+            <p className="text-lg text-white/90 leading-relaxed">Connexa Lab es un laboratorio estratégico que ayuda a empresas y emprendedores a crecer conectando marca, operación y rentabilidad. Analizamos el negocio antes de diseñar la comunicación, porque una marca sólida se construye sobre decisiones informadas, no sobre intuición.
 Somos un laboratorio creativo y estratégico que acompaña a empresas y emprendedores en el desarrollo de su identidad, su mensaje y su conexión con el público.</p>
-            <p className="text-lg text-white/90 leading-relaxed">Combinamos creatividad, inteligencia artificial, tecnología y conocimientos para ayudarte a comunicar mejor, conectar con tu audiencia ideal y avanzar con propósito. Porque más que ideas, tenemos ideas que transforman marcas.</p>
+            <p className="text-lg text-white/90 leading-relaxed">Integramos estrategia, tecnología, creatividad y análisis para transformar datos en acciones concretas que generen resultados sostenibles. Más que ideas, desarrollamos modelos que funcionan en el mundo real.</p>
             <p className="text-lg text-white/90 leading-relaxed"></p>
           </motion.div>
         </div>

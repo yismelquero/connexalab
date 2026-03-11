@@ -15,10 +15,10 @@ const HeroSection = () => {
             className="space-y-6"
           >
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-[#2f306b] leading-tight">
-              Ideas que transforman marcas
+              Estrategias que hacen crecer negocios
             </h1>
             <p className="text-lg md:text-xl text-[#2f306b]/80 leading-relaxed">
-              En Connexa Lab damos vida a ideas para convertirlas en estrategias que hacen crecer marcas, conectan con su audiencia y crean experiencias inolvidables.
+              En Connexa Lab transformamos ideas en decisiones estratégicas que impulsan crecimiento real. Analizamos tu negocio, entendemos tu mercado y diseñamos acciones que conectan marca, operación y rentabilidad para lograr resultados sostenibles, no solo visibilidad.
             </p>
             <motion.a 
               href="#servicios" 
